@@ -9,7 +9,7 @@ export default [
 		output: {
 			name: 'howLongUntilLunch',
 			file: pkg.browser,
-			format: 'umd'
+			format: 'cmd'
 		},
 		plugins: [
 			resolve(), // so Rollup can find `ms`

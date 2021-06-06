@@ -1,89 +1,61 @@
-<html>
+<html><head><meta http-equiv="Content-Type" content="text/html;charset=utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+</head>
     <body>
-        <script>
-            var tree0={
-            name: 'root-1',
-            children: [{
-              name: 'root-1-1'
-            }, {
-              name: 'root-1-2',
-              children:[{
-                name: 'root-1-2-1'
-              }]
-            }]
-          }
+        <script type="module">
+
+        import FlattenTree from "./index.js";
+
         var  tree = [{
-            name: 'root-1',
+            value: 1,
+            label: '东南',
             children: [{
-              name: 'root-1-1'
+                value: 2,
+                label: '上海',
+                children: [
+                    { value: 3, label: '普陀' },
+                    { value: 4, label: '黄埔' },
+                    { value: 5, label: '徐汇' }
+                ]
             }, {
-              name: 'root-1-2',
-              children:[{
-                name: 'root-1-2-1'
-              }]
+                value: 7,
+                label: '江苏',
+                children: [
+                    { value: 8, label: '南京' },
+                    { value: 9, label: '苏州' },
+                    { value: 10, label: '无锡' }
+                ]
+            }, {
+                value: 12,
+                label: '浙江',
+                children: [
+                    { value: 13, label: '杭州' },
+                    { value: 14, label: '宁波' },
+                    { value: 15, label: '嘉兴' }
+                ]
             }]
-          },
-          {
-            name: 'book-1',
-            children: [ {
-              name: 'book-1-1',
-              children:[{
-                name: 'book-1-1-1'
-              }]
+        }, {
+            value: 17,
+            label: '西北',
+            children: [{
+                value: 18,
+                label: '陕西',
+                children: [
+                    { value: 19, label: '西安' },
+                    { value: 20, label: '延安' }
+                ]
+            }, {
+                value: 21,
+                label: '新疆维吾尔族自治区',
+                children: [
+                    { value: 22, label: '乌鲁木齐' },
+                    { value: 23, label: '克拉玛依' }
+                ]
             }]
-          }]
-        
-        function flattenTree(root, key,index=0,parentIndexes=[],parentDeeps=[]) {
-            let deep = root[key] && root[key].length > 0? root[key].length : 0
-            root.indexes = parentIndexes.slice()
-            root.indexes.push(index)
-            root.deeps= parentDeeps.slice()
-            if(deep>0){
-                
-                root.deeps.push(deep)
-            }
-          let flatten = [Object.assign({}, root)];
-          delete flatten[0][key];
-         
-          
-        
-          if (root[key] && root[key].length > 0) {
-             
-            return flatten.concat(
-                root[key]
-                    .map((child)=>flattenTree(child, key,index++,root.indexes,root.deeps))
-                      .reduce((a, b)=>a.concat(b), [])
-            );
-          }
-        
-          return flatten;
-        };
-        
-        
-        function flattenArray (arr){
-            let retArr = []
-            arr.forEach((item,index) => {
-                let curF = flattenTree(item,'children')
-              
-                retArr.push(curF)
-            });
-            console.log(retArr)
-        }
-        let aa = flattenTree(tree0,'children')
-
-        let bb = flattenTree({
-            name: 'book-1',
-            children: [ {
-              name: 'book-1-1',
-              children:[{
-                name: 'book-1-1-1'
-              }]
-            }]
-          },'children')
-
-        console.log(aa,bb)
-        flattenArray(tree)
-
+        }]
+          let treeObj = new FlattenTree(tree,'children')
+            console.log(treeObj)
+            let search1 = treeObj.find('label','无锡')
+            console.log(search1)
     </script>
     </body>
 </html>
