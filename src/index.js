@@ -58,44 +58,59 @@ export  default  class FlattenTree {
         // }
         // return arr;
 
-        
 
-    
+
+
     }
     /**
      * 根据索引在原数组进行搜索
-     * @param {} targetBranch 
-     * @param {*} indexes 
+     * @param {} targetBranch
+     * @param {*} indexes
      */
     __getFullItemsByIndexes(targetBranch,indexes){
         let nextChild =  [Object.assign({}, targetBranch)];
 
-       
+
         let fullPath = []
         for(let i=0;i<indexes.length;i++){
             let {index,deep}= indexes[i]
-            
+
             let curItem = nextChild[index]
             let __item = Object.assign({},curItem)
             delete __item[this.__childKey]
             nextChild = curItem[this.__childKey]
-            fullPath.push(__item)        
+            fullPath.push(__item)
         }
         return fullPath;
     }
 
-    find(key,val){ 
+    checkAssertFunc(assert){
+        if(typeof assert === "function"){
+            return assert
+        }else{
+            return function (){
+                return false
+            }
+        }
+    }
+    /**
+     * 根据条件查找元素
+     * @param assert
+     * @returns {*[]}
+     */
+    find(assert){
+        assert = this.checkAssertFunc(assert);
         let flatItem = null
         let targetBranch = null
         let targetOriginBranch = null
         for(let i=0; i<this.__flattenArray.length; i++){
             let curBranch = this.__flattenArray[i];
             let __item = curBranch.find(item=>{
-                return item[key]===val
+                return assert(item)
             })
             if(__item){
                 targetBranch = curBranch
-                targetOriginBranch = this.__originArray[i]               
+                targetOriginBranch = this.__originArray[i]
                 flatItem=__item;
                 break;
             }

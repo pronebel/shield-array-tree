@@ -54,9 +54,14 @@
         }]
           let treeObj = new FlattenTree(tree,'children')
             console.log(treeObj)
-            let search1 = treeObj.find('label','无锡')
-            
-            let search2 = treeObj.find('label','克拉玛依')
+            let search1 = treeObj.find(function(item){
+                return item['label']=='无锡'
+            });
+
+
+            let search2 = treeObj.find(function(item){
+                return item['label']=='克拉玛依'
+            });
             console.log(search1,search2)
     </script>
     </body>
